@@ -1,0 +1,1 @@
+__attribute__((visibility("default"))) extern const char GIT_DESCRIBE[]="GIT_DESCRIBE: ${CURRENT_GIT_DESCRIBE}";

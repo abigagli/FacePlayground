@@ -1,0 +1,3 @@
+#INCLUDE (CMakeFindDependencyMacro)
+#FIND_DEPENDENCY (RMXQ)
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
