@@ -393,7 +393,6 @@ CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/cmake/ProjectConfig.cmake.in" "${PROJECT_
 ###############################################
 
 SET (FACESDK_ROOT "$ENV{HOME}/IMAGE_DETECTION/LUXAND/SDK" CACHE STRING "FaceSDK root directory")
-SET (FACESDK_LIB "${FACESDK_ROOT}/bin/linux_x86_64/libfsdk.so" CACHE STRING "FaceSDK library")
 ADD_SUBDIRECTORY (3rdParty)
 ADD_SUBDIRECTORY (compiletime_config)
 ADD_SUBDIRECTORY (src/tracker)
