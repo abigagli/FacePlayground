@@ -144,10 +144,32 @@ int main(int argc, char *argv[])
         std::clog << "frame " << frame_number << ": faceCount =  " << faceCount << ", width = " << width << ", height = " << height << ", IDS: ";
 
         for (auto i = 0U; (i < sizeof(IDs) / sizeof(decltype(IDs[0]))) && (IDs[i] != 0); ++i)
-            std::clog << IDs[i] << ", ";
+            std::clog << IDs[i] << "@" << i << ", ";
+
+
+        std::clog << " | ";
+
+        if (faceCount && IDs[0])
+        {
+            char gender[128];
+            if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Gender", gender, sizeof(gender)))
+                std::clog << ", gender=" << gender;
+
+            char age[4];
+            if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Age", age, sizeof(age)))
+                std::clog << ", age=" << age;
+
+            char expression[128];
+            if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Expression", expression, sizeof(expression)))
+                std::clog << ", expression=" << expression;
+            /*
+            char attributes[256];
+            if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Gender; Age; Expression", attributes, sizeof(attributes)))
+                std::clog << ", attributes=" << attributes;
+                */
+        }
 
         std::clog << "\n";
-
         /*
         HImage resizedImageHandle;
         FSDK_CreateEmptyImage(&resizedImageHandle);
