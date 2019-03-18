@@ -106,7 +106,21 @@ int main(int argc, char *argv[])
         int grab_res = FSDK_GrabFrame(cameraHandle, &imageHandle);
         if (grab_res != FSDKE_OK)
         {
-            std::cerr << "Error in grabframe for frame_number " << frame_number << "\n";
+            std::cerr << "Error " << grab_res << " in grabframe for frame_number " << frame_number << "\n";
+
+            if (stream_connected)
+            {
+                std::cerr << "Trying to close stream\n";
+                if (FSDKE_OK != FSDK_CloseVideoCamera(cameraHandle))
+                {
+                    std::cerr << "Error closing stream\n";
+                    return -4;
+                }
+
+                std::cerr << "Stream closed\n";
+                stream_connected = false;
+            }
+
             continue;
         }
 
@@ -122,7 +136,12 @@ int main(int argc, char *argv[])
         FSDK_GetImageWidth(imageHandle, &width);
         FSDK_GetImageHeight(imageHandle, &height);
 
-        std::clog << "frame " << frame_number << ": faceCount =  " << faceCount << ", width = " << width << ", height = " << height << "\n";
+        std::clog << "frame " << frame_number << ": faceCount =  " << faceCount << ", width = " << width << ", height = " << height << ", IDS: ";
+
+        for (auto i = 0U; (i < sizeof(IDs) / sizeof(decltype(IDs[0]))) && (IDs[i] != 0); ++i)
+            std::clog << IDs[i] << ", ";
+
+        std::clog << "\n";
 
         /*
         HImage resizedImageHandle;
@@ -140,6 +159,7 @@ int main(int argc, char *argv[])
         FSDK_FreeImage(imageHandle);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        ++frame_number;
     }
 
     if (stream_connected  && (FSDKE_OK != FSDK_CloseVideoCamera(cameraHandle)))
