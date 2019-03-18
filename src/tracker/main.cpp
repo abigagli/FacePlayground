@@ -20,6 +20,7 @@ namespace config
 {
     std::string stream_ip = "127.0.0.1";
     int stream_port = 8080;
+    std::string stream_id = "";
     std::string username;
     std::string userpwd;
     int timeout_seconds = 30;
@@ -38,12 +39,16 @@ bool parse_args (int argc, char *argv[])
     if (argc > 2)
         config::stream_port = std::stoi(argv[2]);
 
+    if (argc > 3)
+        config::stream_id = argv[3];
+
 
     return true;
 }
 
 void sig_handler(int)
 {
+    std::clog << "SIGNAL RECEIVED\n";
     globals::keep_going = false;
 }
 
@@ -86,8 +91,8 @@ int main(int argc, char *argv[])
     {
         if (!stream_connected)
         {
-            std::clog << "Trying to connect to stream " << config::stream_ip << ":" << config::stream_port << std::endl;
-            std::string camera_url = config::stream_ip + ":" + std::to_string(config::stream_port);
+            std::string camera_url = config::stream_ip + ":" + std::to_string(config::stream_port) + config::stream_id;
+            std::clog << "Trying to connect to " << camera_url << std::endl;
             if (FSDKE_OK !=
                 FSDK_OpenIPVideoCamera(FSDK_MJPEG, camera_url.c_str(), config::username.c_str(), config::userpwd.c_str(),
                                        config::timeout_seconds, &cameraHandle))
@@ -158,7 +163,7 @@ int main(int argc, char *argv[])
 
         FSDK_FreeImage(imageHandle);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(10));
         ++frame_number;
     }
 
