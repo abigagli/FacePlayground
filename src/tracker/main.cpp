@@ -129,6 +129,9 @@ int main(int argc, char *argv[])
             continue;
         }
 
+        //******* SAVE IMAGE *********
+        //FSDK_SaveImageToFile(imageHandle, ("/tmp/image_" + std::to_string(frame_number) + ".jpg").c_str());
+
         long long IDs[256]{};
         long long faceCount = 0;
 
