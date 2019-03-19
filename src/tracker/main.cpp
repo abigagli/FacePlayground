@@ -80,7 +80,19 @@ int main(int argc, char *argv[])
 
     int err = 0; // set realtime face detection parameters
     FSDK_SetTrackerMultipleParameters(tracker,
-                                      "RecognizeFaces=false; DetectFacialFeatures=true; HandleArbitraryRotations=false; DetermineFaceRotationAngle=false; InternalResizeWidth=256; FaceDetectionThreshold=5;",
+                                      "RecognizeFaces=true; \
+                                       InternalResizeWidth=512; \
+                                       DetectFacialFeatures=true; \
+                                       DetectGender=true; \
+                                       DetectAge=true; \
+                                       DetectExpression=true; \
+                                       Learning=true; \
+                                       MemoryLimit=2150; \
+                                       KeepFaceImages=false; \
+                                       HandleArbitraryRotations=true; \
+                                       DetermineFaceRotationAngle=false; \
+                                       InternalResizeWidth=256; \
+                                       FaceDetectionThreshold=5;",
                                       &err);
 
     int cameraHandle = 0;
