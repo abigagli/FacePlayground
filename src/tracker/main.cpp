@@ -7,6 +7,8 @@
 #include <memory>
 #include <cassert>
 #include <thread>
+#include <atomic>
+#include <signal.h>
 
 #include "LuxandFaceSDK.h"
 #include "license.h"
