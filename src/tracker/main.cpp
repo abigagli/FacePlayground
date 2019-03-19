@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     int err = 0; // set realtime face detection parameters
     FSDK_SetTrackerMultipleParameters(tracker,
                                       "RecognizeFaces=true; \
-                                       InternalResizeWidth=512; \
+                                       InternalResizeWidth=1024; \
                                        DetectFacialFeatures=true; \
                                        DetectGender=true; \
                                        DetectAge=true; \
@@ -93,8 +93,7 @@ int main(int argc, char *argv[])
                                        KeepFaceImages=false; \
                                        HandleArbitraryRotations=true; \
                                        DetermineFaceRotationAngle=false; \
-                                       InternalResizeWidth=256; \
-                                       FaceDetectionThreshold=5;",
+                                       FaceDetectionThreshold=3;",
                                       &err);
 
     int cameraHandle = 0;
@@ -179,11 +178,13 @@ int main(int argc, char *argv[])
             char expression[128];
             if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Expression", expression, sizeof(expression)))
                 std::clog << ", expression=" << expression;
+
             /*
-            char attributes[256];
-            if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Gender; Age; Expression", attributes, sizeof(attributes)))
-                std::clog << ", attributes=" << attributes;
-                */
+             *char attributes[256];
+             *if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Gender; Age; Expression", attributes, sizeof(attributes)))
+             *    std::clog << ", attributes=" << attributes;
+             */
+
         }
 
         std::clog << "\n";
