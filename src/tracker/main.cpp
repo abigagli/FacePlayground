@@ -77,6 +77,10 @@ int main(int argc, char *argv[])
     FSDK_GetLicenseInfo(license_info);
     std::cerr << "Detected license: " << license_info << "\n";
 
+    int num_threads;
+    FSDK_GetNumThreads (&num_threads);
+    std::cerr << "Detected num_threads: " << num_threads << "\n";
+
     HTracker tracker = 0;
     FSDK_CreateTracker(&tracker);
 
