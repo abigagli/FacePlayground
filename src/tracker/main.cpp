@@ -54,6 +54,40 @@ void sig_handler(int)
     globals::keep_going = false;
 }
 
+bool initialize(char const *license)
+{
+    if (FSDK_ActivateLibrary(license) != FSDKE_OK)
+    {
+        std::cerr << "Error activating FaceSDK\n";
+        return false;
+    }
+
+    char initialize_args[32];
+    if (FSDK_Initialize(initialize_args) != FSDKE_OK)
+    {
+        std::cerr << "Error Initializing SDK\n";
+        return false;
+    }
+
+    char license_info[512];
+    if (FSDK_GetLicenseInfo(license_info) != FSDKE_OK)
+    {
+        std::cerr << "Error getting license info\n";
+        return false;
+    }
+
+    std::cerr << "Detected license: " << license_info << "\n";
+
+    int num_threads;
+    if (FSDK_GetNumThreads (&num_threads) != FSDKE_OK)
+    {
+        std::cerr << "Error getting num threads\n";
+        return false;
+    }
+
+    std::cerr << "Detected num_threads: " << num_threads << "\n";
+    return true;
+}
 
 int main(int argc, char *argv[])
 {
@@ -64,22 +98,9 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-
-    if (FSDK_ActivateLibrary(license.c_str()) != FSDKE_OK)
-    {
-        std::cerr << "Error activating FaceSDK\n";
+    if (!initialize(license.c_str()))
         return -2;
-    }
-    char initialize_args[32];
-    FSDK_Initialize(initialize_args);
 
-    char license_info[512];
-    FSDK_GetLicenseInfo(license_info);
-    std::cerr << "Detected license: " << license_info << "\n";
-
-    int num_threads;
-    FSDK_GetNumThreads (&num_threads);
-    std::cerr << "Detected num_threads: " << num_threads << "\n";
 
     HTracker tracker = 0;
     FSDK_CreateTracker(&tracker);
