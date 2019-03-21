@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
             if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Gender", gender, sizeof(gender)))
                 std::clog << ", gender=" << gender;
 
-            char age[4];
+            char age[64];
             if (FSDKE_OK == FSDK_GetTrackerFacialAttribute(tracker, 0, IDs[0], "Age", age, sizeof(age)))
                 std::clog << ", age=" << age;
 
