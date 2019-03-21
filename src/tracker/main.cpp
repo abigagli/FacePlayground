@@ -212,6 +212,9 @@ int main(int argc, char *argv[])
 
         }
 
+        long long trackerBufSize;
+        FSDK_GetTrackerMemoryBufferSize (tracker, &trackerBufSize);
+        std::clog << ", trackerMemSize=" << trackerBufSize;
         std::clog << "\n";
         /*
         HImage resizedImageHandle;
